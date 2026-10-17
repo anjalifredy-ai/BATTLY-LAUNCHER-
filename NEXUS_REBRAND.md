@@ -7,21 +7,28 @@
 
 ## Completed
 - [x] Root project name → Nexus Launcher
-- [x] applicationId → `com.nexuslauncher` (defaultConfig + all buildTypes + authorities)
+- [x] applicationId → `com.nexuslauncher`
+- [x] All storage / share authorities updated
 - [x] versionName → `1.0.0-nexus`
 - [x] README rewritten
 - [x] GitHub Actions workflow (`nexus-build.yml`)
 - [x] Branding strings (`nexus_strings.xml`)
-- [x] This status document
+- [x] `build.gradle.append` file added (contains the missing afterEvaluate + dependencies)
 
-## Critical pending
-- [ ] **build.gradle full restore**: The afterEvaluate block + full dependencies block was truncated during large-file updates. The package ID is correct, but the file is currently missing the second half (afterEvaluate, R8 checks, native page-size tasks, and the dependencies {} block including MobileGlues/Terracotta/ltw/Firebase). This must be restored for a successful build.
+## How to finish build.gradle (1 minute)
 
-## Next steps (automatic)
-1. Restore complete build.gradle (highest priority)
-2. Soft-disable Battly ads / Battly+ branding
-3. Home screen UI matching screenshots
-4. Instance selector UI matching screenshots
+The main `app_pojavlauncher/build.gradle` currently ends at `buildToolsVersion = '36.0.0' }`.
 
-## Engine status
-Fully preserved (no engine code deleted).
+**Do this:**
+1. Open `app_pojavlauncher/build.gradle`
+2. Open `app_pojavlauncher/build.gradle.append`
+3. Copy everything from the append file and paste it at the end of `build.gradle`
+4. Delete the `.append` file (optional)
+5. Commit
+
+After that the project will have full dependencies (MobileGlues, Terracotta, ltw, Firebase, etc.) and can build.
+
+## Next automatic work
+- Soft-disable Battly ads
+- Clean remaining strings
+- Start Home screen UI matching the screenshots you provided
