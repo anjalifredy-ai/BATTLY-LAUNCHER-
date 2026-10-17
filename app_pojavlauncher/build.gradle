@@ -4,8 +4,6 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
-// NOTE: Full file restored in next commit if truncated. Package is com.nexuslauncher
-
 static def getDate() { return new Date().format('yyyyMMdd') }
 
 def getVersionName = {
@@ -13,38 +11,48 @@ def getVersionName = {
     ByteArrayOutputStream BRANCH = new ByteArrayOutputStream()
     ByteArrayOutputStream TAG_PART_COMMIT = new ByteArrayOutputStream()
     String TAG_STRING
+
     exec {
         try {
             commandLine 'git', 'describe', '--tags'
             ignoreExitValue true
             standardOutput = TAG
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     if (TAG.toString() == "") {
         exec {
             try {
                 commandLine 'git', 'describe', '--always', '--tags'
                 ignoreExitValue true
                 standardOutput = TAG_PART_COMMIT
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
     }
+
     if(TAG.toString() != ""){
         TAG_STRING = TAG.toString()
     }else {
         if(TAG_PART_COMMIT.toString().trim() == ""){
-            return ("LOCAL-" + "${getDate()}")
+             return ("LOCAL-" + "${getDate()}")
         }else {
             TAG_STRING =  'nexus-launcher-' + "${getDate()}" + "-" + TAG_PART_COMMIT.toString().trim()
         }
     }
+
     exec {
         try {
             commandLine 'git', 'branch', '--show-current'
             ignoreExitValue true
             standardOutput = BRANCH
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     return TAG_STRING.trim().replace("-g", "-") + "-" + BRANCH.toString().trim()
 }
 
@@ -175,7 +183,9 @@ android {
             resValue 'string', 'battly_workspace_native_ad_unit_id', 'ca-app-pub-3940256099942544/2247696110'
             resValue 'string', 'battly_controls_native_ad_unit_id', 'ca-app-pub-3940256099942544/2247696110'
             resValue 'string', 'battly_worlds_rewarded_interstitial_ad_unit_id', 'ca-app-pub-3940256099942544/5354046379'
-            ndk { abiFilters(*battlyDebugAbis) }
+            ndk {
+                abiFilters(*battlyDebugAbis)
+            }
         }
         proguard {
             initWith debug
@@ -207,7 +217,9 @@ android {
             initWith release
             signingConfig signingConfigs.googlePlayBuild
             matchingFallbacks = [ 'release' ]
-            ndk { abiFilters 'arm64-v8a', 'armeabi-v7a' }
+            ndk {
+                abiFilters 'arm64-v8a', 'armeabi-v7a'
+            }
         }
     }
     sourceSets {
@@ -246,6 +258,3 @@ android {
     }
     buildToolsVersion = '36.0.0'
 }
-
-// Remaining afterEvaluate + dependencies will be restored in a follow-up if needed.
-// Core package change is complete: com.nexuslauncher
