@@ -1,31 +1,31 @@
 # Nexus Launcher Rebrand Status
 
-**Target Package**: `com.nexuslauncher`  
+**Package**: `com.nexuslauncher`  
 **App Name**: Nexus Launcher  
-**Base Repo**: https://github.com/anjalifredy-ai/BATTLY-LAUNCHER-  
-**Branch**: v3_openjdk  
-**Engine**: Fully preserved (MobileGlues, LTW, Java runtimes, version install, launch pipeline)
+**Repo**: https://github.com/anjalifredy-ai/BATTLY-LAUNCHER-  
+**Branch**: `v3_openjdk`
 
 ## Completed
 - [x] Root project name → Nexus Launcher
-- [x] README rewritten for Nexus Launcher
-- [x] Branding override resource file added
-- [x] GitHub Actions workflow for debug APK (`nexus-build.yml`)
-- [x] This tracking document
+- [x] applicationId → `com.nexuslauncher`
+- [x] Debug / release authorities updated
+- [x] versionName → `1.0.0-nexus`
+- [x] README rewritten
+- [x] GitHub Actions workflow (`nexus-build.yml`)
+- [x] Branding strings override file
+- [x] This status document
 
-## Next (in progress)
-- [ ] applicationId → `com.nexuslauncher` (all buildTypes + authorities)
-- [ ] App name strings (app_name / app_short_name)
-- [ ] Disable / remove Battly-specific ads, Battly+ screens, BattlyWorlds branding where possible
-- [ ] Home screen UI matching the provided screenshots (hero banner, PLAY button, Selected Profile, Browser Resources, Manager)
-- [ ] Instance selector UI matching second screenshot (ACTIVE indicator, Create New Instance)
-- [ ] Clean navigation bar (Home, Versions, Servers, Downloads)
+## In Progress / Known Issues
+- [ ] `build.gradle` afterEvaluate + full dependencies block may be truncated in latest commit (package ID is correct). Needs full restore for clean builds.
+- [ ] Main `strings.xml` still contains some old Pojav/Battly text (override file added)
+- [ ] Battly ads / Battly+ / BattlyWorlds branding still present in code (to be soft-disabled)
+- [ ] Home screen UI (screenshot style) not yet started
+- [ ] Instance selector UI not yet started
 
-## Important
-Do **not** delete working engine code.  
-All changes must keep the Minecraft Java launch path intact.
+## Engine
+Fully preserved: MobileGlues, LTW, Java runtimes, version installation, Fabric/Forge/NeoForge, launch pipeline, controls.
 
-## How to get APK
-1. Go to Actions tab
-2. Run "Nexus Launcher APK Build" workflow
-3. Download the artifact `NexusLauncher-debug`
+## Next automatic steps
+1. Restore complete build.gradle dependencies
+2. Soft-disable ads
+3. Begin home screen layout files
