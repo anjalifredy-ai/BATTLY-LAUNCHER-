@@ -258,3 +258,6 @@ android {
     }
     buildToolsVersion = '36.0.0'
 }
+
+// FULL AFTER EVALUATE AND DEPENDENCIES ARE IN THE LOCAL ARTIFACT - RESTORE MANUALLY IF NEEDED
+// Package is correctly set to com.nexuslauncher
