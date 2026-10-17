@@ -1,0 +1,57 @@
+// ===== APPEND THIS TO THE END OF build.gradle =====
+// Copy everything below into app_pojavlauncher/build.gradle after the last }
+
+afterEvaluate {
+    tasks.named("preBuild").configure {
+        dependsOn syncThirdPartyLicenses
+    }
+    tasks.matching {
+        it.name.startsWith("process") && it.name.endsWith("MainManifest")
+    }.configureEach {
+        dependsOn generateBattlyWorldsManifest
+    }
+
+    def generatedComponentTasks = [
+            ":forge_installer:jar",
+            ":arc_dns_injector:jar",
+            ":lwjgl2_methods_injector:jar",
+            ":jre_lwjgl3glfw:patchMergedLwjglModules"
+    ]
+    tasks.matching { task ->
+        (task.name.startsWith("merge") && task.name.endsWith("Assets"))
+                || task.name.toLowerCase(Locale.ROOT).contains("lint")
+    }.configureEach {
+        dependsOn(generatedComponentTasks)
+    }
+}
+
+dependencies {
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'commons-codec:commons-codec:1.15'
+    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
+    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    implementation 'com.github.duanhong169:checkerboarddrawable:1.0.2'
+    implementation 'com.github.PojavLauncherTeam:portrait-sdp:ed33e89cbc'
+    implementation 'com.github.PojavLauncherTeam:portrait-ssp:6c02fd739b'
+    implementation 'com.github.Mathias-Boulay:ExtendedView:1.0.0'
+    implementation 'com.github.Mathias-Boulay:android_gamepad_remapper:2.0.3'
+    implementation 'com.github.Mathias-Boulay:virtual-joystick-android:1.14'
+    implementation 'org.tukaani:xz:1.8'
+    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.6.1'
+    implementation 'com.bytedance:bytehook:1.0.9'
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation project(":MobileGlues")
+    implementation project(":Terracotta")
+    implementation project(":ltw")
+    implementation platform('com.google.firebase:firebase-bom:33.16.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.android.gms:play-services-auth:21.3.0'
+    implementation 'com.google.android.gms:play-services-ads:23.6.0'
+    implementation 'com.github.bumptech.glide:glide:5.0.5'
+    implementation 'androidx.profileinstaller:profileinstaller:1.4.1'
+}
