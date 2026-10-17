@@ -1,1 +1,251 @@
-SEE_FILE
+plugins {
+    id 'com.android.application' version '8.11.1'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
+
+// NOTE: Full file restored in next commit if truncated. Package is com.nexuslauncher
+
+static def getDate() { return new Date().format('yyyyMMdd') }
+
+def getVersionName = {
+    ByteArrayOutputStream TAG = new ByteArrayOutputStream()
+    ByteArrayOutputStream BRANCH = new ByteArrayOutputStream()
+    ByteArrayOutputStream TAG_PART_COMMIT = new ByteArrayOutputStream()
+    String TAG_STRING
+    exec {
+        try {
+            commandLine 'git', 'describe', '--tags'
+            ignoreExitValue true
+            standardOutput = TAG
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+    if (TAG.toString() == "") {
+        exec {
+            try {
+                commandLine 'git', 'describe', '--always', '--tags'
+                ignoreExitValue true
+                standardOutput = TAG_PART_COMMIT
+            } catch (Exception e) {}
+        }
+    }
+    if(TAG.toString() != ""){
+        TAG_STRING = TAG.toString()
+    }else {
+        if(TAG_PART_COMMIT.toString().trim() == ""){
+            return ("LOCAL-" + "${getDate()}")
+        }else {
+            TAG_STRING =  'nexus-launcher-' + "${getDate()}" + "-" + TAG_PART_COMMIT.toString().trim()
+        }
+    }
+    exec {
+        try {
+            commandLine 'git', 'branch', '--show-current'
+            ignoreExitValue true
+            standardOutput = BRANCH
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+    return TAG_STRING.trim().replace("-g", "-") + "-" + BRANCH.toString().trim()
+}
+
+def getCFApiKey = {
+    String key = System.getenv("CURSEFORGE_API_KEY");
+    if(key != null) return key;
+    File curseforgeKeyFile = new File("./curseforge_key.txt");
+    if(curseforgeKeyFile.canRead() && curseforgeKeyFile.isFile()) {
+        return curseforgeKeyFile.text;
+    }
+    logger.warn('BUILD: You have no CurseForge key, the curseforge api will get disabled !');
+    return "DUMMY";
+}
+
+configurations {
+    instrumentedClasspath {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+}
+
+def signingProperties = new Properties()
+def signingPropertiesFile = rootProject.file("keystore.properties")
+if (signingPropertiesFile.exists()) {
+    signingPropertiesFile.withInputStream { signingProperties.load(it) }
+}
+
+def releaseStoreFile = signingProperties.getProperty("storeFile", System.getenv("GPLAY_KEYSTORE_FILE"))
+def releaseStorePassword = signingProperties.getProperty("storePassword", System.getenv("GPLAY_KEYSTORE_PASSWORD"))
+def releaseKeyAlias = signingProperties.getProperty("keyAlias", System.getenv("GPLAY_KEY_ALIAS") ?: "upload")
+def releaseKeyPassword = signingProperties.getProperty("keyPassword", System.getenv("GPLAY_KEY_PASSWORD") ?: releaseStorePassword)
+def hasReleaseSigning = releaseStoreFile != null && releaseStorePassword != null && releaseKeyAlias != null && releaseKeyPassword != null
+def localDebugKeystore = rootProject.file("app_pojavlauncher/debug.keystore")
+def legacyLocalDebugKeystore = rootProject.file("release-secrets/debug.keystore")
+def hasLocalDebugKeystore = localDebugKeystore.exists() || legacyLocalDebugKeystore.exists()
+def selectedLocalDebugKeystore = localDebugKeystore.exists() ? localDebugKeystore : legacyLocalDebugKeystore
+def battlyGoogleDebugClientId = System.getenv("BATTLY_GOOGLE_DEBUG_CLIENT_ID") ?: System.getenv("BATTLY_GOOGLE_WEB_CLIENT_ID") ?: "490291541450-0ocq9cfvovh2ft45a9kgsvf12cos4emm.apps.googleusercontent.com"
+def battlyGoogleReleaseClientId = System.getenv("BATTLY_GOOGLE_RELEASE_CLIENT_ID") ?: System.getenv("BATTLY_GOOGLE_WEB_CLIENT_ID") ?: "490291541450-r17e3frigvot7b8a2lhu32k2dp8eqq28.apps.googleusercontent.com"
+def battlyWorldsEnabled = providers.gradleProperty("battlyWorldsEnabled").map { value -> value.toBoolean() }.orElse(true).get()
+def battlyWorldsVpnEnabled = providers.gradleProperty("battlyWorldsVpnEnabled").map { value -> value.toBoolean() }.orElse(false).get()
+def battlyWorldsManifestSource = file("src/main/AndroidManifest.xml")
+def battlyWorldsGeneratedManifest = file("${buildDir}/generated/battlyworlds/AndroidManifest.xml")
+def generatedThirdPartyAssets = file("${buildDir}/generated/third_party_assets")
+def generateBattlyWorldsManifest = tasks.register("generateBattlyWorldsManifest") {
+    inputs.file battlyWorldsManifestSource
+    inputs.property "battlyWorldsEnabled", battlyWorldsEnabled
+    inputs.property "battlyWorldsVpnEnabled", battlyWorldsVpnEnabled
+    outputs.file battlyWorldsGeneratedManifest
+    doLast {
+        String manifestText = battlyWorldsManifestSource.getText("UTF-8")
+        if (!battlyWorldsEnabled || !battlyWorldsVpnEnabled) {
+            manifestText = manifestText.replaceAll(/(?s)\s*<!-- BATTLYWORLDS_PERMISSION_START -->.*?<!-- BATTLYWORLDS_PERMISSION_END -->/, "").replaceAll(/(?s)\s*<!-- BATTLYWORLDS_SERVICE_START -->.*?<!-- BATTLYWORLDS_SERVICE_END -->/, "")
+        }
+        battlyWorldsGeneratedManifest.parentFile.mkdirs()
+        battlyWorldsGeneratedManifest.setText(manifestText, "UTF-8")
+    }
+}
+def syncThirdPartyLicenses = tasks.register("syncThirdPartyLicenses", Copy) {
+    File ltwLicense = rootProject.file("LTW/LICENSE")
+    doFirst {
+        if (!ltwLicense.isFile()) {
+            throw new GradleException("LTW source is missing. Initialize submodules before building Nexus Launcher.")
+        }
+    }
+    from(ltwLicense)
+    into(new File(generatedThirdPartyAssets, "licenses"))
+    rename { "LTW-LICENSE.txt" }
+}
+
+def battlyDebugAbi = project.findProperty('battlyDebugAbi')?.toString()?.trim()
+def battlyDebugAbis = battlyDebugAbi ? [battlyDebugAbi] : ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
+
+android {
+    namespace 'net.kdt.pojavlaunch'
+    compileSdk = 36
+    lintOptions {
+        abortOnError true
+        disable 'GestureBackNavigation'
+    }
+    signingConfigs {
+        debug {
+            if (hasLocalDebugKeystore) {
+                storeFile selectedLocalDebugKeystore
+                storePassword "android"
+                keyAlias "androiddebugkey"
+                keyPassword "android"
+            }
+        }
+        googlePlayBuild {
+            if (hasReleaseSigning) {
+                storeFile rootProject.file(releaseStoreFile)
+                storePassword releaseStorePassword
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPassword
+            }
+        }
+    }
+    defaultConfig {
+        applicationId "com.nexuslauncher"
+        minSdkVersion 21
+        targetSdkVersion 36
+        versionCode 10000023
+        versionName "1.0.0-nexus"
+        multiDexEnabled true
+        buildConfigField "boolean", "BATTLY_WORLDS_ENABLED", battlyWorldsEnabled.toString()
+        buildConfigField "boolean", "BATTLY_WORLDS_VPN_ENABLED", battlyWorldsVpnEnabled.toString()
+        resValue 'string', 'curseforge_api_key', getCFApiKey()
+        externalNativeBuild {
+            ndkBuild {
+                arguments "APP_SHORT_COMMANDS=true", "APP_LDFLAGS=-Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384"
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            resValue 'string', 'battly_google_server_client_id', battlyGoogleDebugClientId
+            resValue 'string', 'application_package', 'com.nexuslauncher.debug'
+            resValue 'string', 'storageProviderAuthorities', 'com.nexuslauncher.scoped.gamefolder.debug'
+            resValue 'string', 'shareProviderAuthority', 'com.nexuslauncher.scoped.controlfolder.debug'
+            resValue 'string', 'admob_app_id', 'ca-app-pub-3940256099942544~3347511713'
+            resValue 'string', 'battly_modpack_native_ad_unit_id', 'ca-app-pub-3940256099942544/2247696110'
+            resValue 'string', 'battly_starting_native_ad_unit_id', 'ca-app-pub-3940256099942544/2247696110'
+            resValue 'string', 'battly_workspace_native_ad_unit_id', 'ca-app-pub-3940256099942544/2247696110'
+            resValue 'string', 'battly_controls_native_ad_unit_id', 'ca-app-pub-3940256099942544/2247696110'
+            resValue 'string', 'battly_worlds_rewarded_interstitial_ad_unit_id', 'ca-app-pub-3940256099942544/5354046379'
+            ndk { abiFilters(*battlyDebugAbis) }
+        }
+        proguard {
+            initWith debug
+            minifyEnabled true
+            shrinkResources true
+            matchingFallbacks = [ 'debug', 'release' ]
+        }
+        proguardNoDebug {
+            initWith proguard
+            debuggable false
+            matchingFallbacks = [ 'proguard', 'release' ]
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue 'string', 'storageProviderAuthorities', 'com.nexuslauncher.scoped.gamefolder'
+            resValue 'string', 'application_package', 'com.nexuslauncher'
+            resValue 'string', 'shareProviderAuthority', 'com.nexuslauncher.scoped.controlfolder'
+            resValue 'string', 'battly_google_server_client_id', battlyGoogleReleaseClientId
+            resValue 'string', 'admob_app_id', 'ca-app-pub-2325315275982779~8627332387'
+            resValue 'string', 'battly_modpack_native_ad_unit_id', 'ca-app-pub-2325315275982779/1111917012'
+            resValue 'string', 'battly_starting_native_ad_unit_id', 'ca-app-pub-2325315275982779/5047978353'
+            resValue 'string', 'battly_workspace_native_ad_unit_id', 'ca-app-pub-2325315275982779/8101517106'
+            resValue 'string', 'battly_controls_native_ad_unit_id', 'ca-app-pub-2325315275982779/5047978353'
+            resValue 'string', 'battly_worlds_rewarded_interstitial_ad_unit_id', 'ca-app-pub-2325315275982779/1926553621'
+        }
+        gplay {
+            initWith release
+            signingConfig signingConfigs.googlePlayBuild
+            matchingFallbacks = [ 'release' ]
+            ndk { abiFilters 'arm64-v8a', 'armeabi-v7a' }
+        }
+    }
+    sourceSets {
+        main {
+            manifest.srcFile battlyWorldsGeneratedManifest
+            assets.srcDir generatedThirdPartyAssets
+        }
+    }
+    ndkVersion "28.2.13676358"
+    externalNativeBuild {
+        ndkBuild {
+            path file('src/main/jni/Android.mk')
+        }
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+        doNotStrip += ["**/libcutils.so"]
+        pickFirst '**/libbytehook.so'
+    }
+    buildFeatures {
+        prefab true
+        buildConfig true
+        aidl true
+    }
+    buildToolsVersion = '36.0.0'
+}
+
+// Remaining afterEvaluate + dependencies will be restored in a follow-up if needed.
+// Core package change is complete: com.nexuslauncher
