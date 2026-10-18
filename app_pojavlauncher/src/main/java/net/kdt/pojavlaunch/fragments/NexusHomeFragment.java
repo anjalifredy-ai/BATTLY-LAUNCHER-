@@ -19,9 +19,7 @@ import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 import net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile;
 
-/**
- * Nexus home – premium UI, PLAY launch, resources, manager, servers, hosting.
- */
+/** Nexus home – premium UI, PLAY, resources, manager, servers, hosting. */
 public class NexusHomeFragment extends Fragment {
 
     public static final String TAG = "NexusHomeFragment";
@@ -89,12 +87,6 @@ public class NexusHomeFragment extends Fragment {
             minehut.setOnClickListener(v -> openHosting("Minehut", "https://minehut.com/"));
         }
 
-        View logo = view.findViewById(R.id.nexus_logo_title);
-        if (logo != null) {
-            logo.setOnClickListener(v ->
-                    Toast.makeText(requireContext(), "Nexus Launcher PRO", Toast.LENGTH_SHORT).show());
-        }
-
         refreshProfileUi();
     }
 
@@ -142,19 +134,16 @@ public class NexusHomeFragment extends Fragment {
         if (mProfileName == null) return;
         try {
             LauncherProfiles.load();
-            String key = LauncherProfiles.getCurrentProfile();
-            MinecraftProfile profile = LauncherProfiles.mainProfileJson != null
-                    ? LauncherProfiles.mainProfileJson.profiles.get(key)
-                    : null;
+            MinecraftProfile profile = LauncherProfiles.getCurrentProfile();
             if (profile != null) {
-                String name = profile.name != null && !profile.name.isEmpty() ? profile.name : key;
+                String name = profile.name != null && !profile.name.isEmpty()
+                        ? profile.name : "Profile";
                 mProfileName.setText(name);
                 String ver = profile.lastVersionId != null ? profile.lastVersionId : "Unknown";
                 if (mProfileVersion != null) mProfileVersion.setText(ver);
                 if (mFabricBadge != null) {
-                    boolean fabric = ver.toLowerCase().contains("fabric")
-                            || (name != null && name.toLowerCase().contains("fabric"));
-                    mFabricBadge.setVisibility(fabric ? View.VISIBLE : View.GONE);
+                    String low = (ver + " " + name).toLowerCase();
+                    mFabricBadge.setVisibility(low.contains("fabric") ? View.VISIBLE : View.GONE);
                 }
             } else {
                 mProfileName.setText("Select profile");
