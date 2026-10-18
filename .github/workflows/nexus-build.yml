@@ -21,10 +21,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      # Do NOT install package "tools" — it no longer exists and breaks sdkmanager
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          packages: 'tools platform-tools platforms;android-36 build-tools;36.0.0 ndk;28.2.13676358'
+
+      - name: Install Android SDK packages
+        run: |
+          sdkmanager --install \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.0.0" \
+            "ndk;28.2.13676358"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
