@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Nexus Launcher Home – matches reference screenshot 1/10 structure -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +12,6 @@
         android:orientation="vertical"
         android:paddingBottom="24dp">
 
-        <!-- ===== TOP BAR ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="52dp"
@@ -23,29 +21,41 @@
             android:paddingEnd="14dp"
             android:background="@color/nexus_nav_bg">
 
-            <TextView
-                android:id="@+id/nexus_logo_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NEXUS LAUNCHER"
-                android:textColor="@color/nexus_text_primary"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.04" />
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/nexus_logo"
+                android:contentDescription="@string/app_name"
+                android:layout_marginEnd="8dp" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="  PLAY BEYOND LIMITS"
-                android:textColor="@color/nexus_text_muted"
-                android:textSize="10sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/nexus_logo_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NEXUS LAUNCHER PRO"
+                    android:textColor="@color/nexus_text_primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.04" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PLAY BEYOND LIMITS"
+                    android:textColor="@color/nexus_text_muted"
+                    android:textSize="9sp" />
+            </LinearLayout>
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
-            <!-- Nav pills -->
             <TextView
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -74,7 +84,6 @@
                 android:padding="6dp" />
         </LinearLayout>
 
-        <!-- ===== HERO BANNER ===== -->
         <FrameLayout
             android:id="@+id/nexus_hero_banner"
             android:layout_width="match_parent"
@@ -163,7 +172,6 @@
             </LinearLayout>
         </FrameLayout>
 
-        <!-- ===== SELECTED PROFILE + PLAY ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -251,7 +259,6 @@
                 android:paddingBottom="14dp" />
         </LinearLayout>
 
-        <!-- ===== BROWSER RESOURCES + MANAGER ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
