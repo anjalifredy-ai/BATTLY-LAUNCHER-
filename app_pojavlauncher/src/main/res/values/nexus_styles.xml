@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Card style - glass / rounded -->
+    <style name="NexusCard">
+        <item name="android:background">@color/nexus_bg_card</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="NexusCardElevated">
+        <item name="android:background">@color/nexus_bg_card_elevated</item>
+        <item name="android:padding">14dp</item>
+    </style>
+
+    <!-- Play button -->
+    <style name="NexusPlayButton">
+        <item name="android:textColor">@color/nexus_play_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">28dp</item>
+        <item name="android:paddingRight">28dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:background">@drawable/nexus_play_button_bg</item>
+    </style>
+
+    <!-- Active badge -->
+    <style name="NexusActiveBadge">
+        <item name="android:textColor">@color/nexus_active</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/nexus_active_badge_bg</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+    </style>
+
+    <!-- Section title -->
+    <style name="NexusSectionTitle">
+        <item name="android:textColor">@color/nexus_text_primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="NexusSubtitle">
+        <item name="android:textColor">@color/nexus_text_secondary</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+</resources>
