@@ -154,8 +154,8 @@ android {
         applicationId "com.nexuslauncher"
         minSdkVersion 21
         targetSdkVersion 36
-        versionCode 10000023
-        versionName "1.0.0-nexus"
+        versionCode 10000024
+        versionName "1.0.1-nexus"
         multiDexEnabled true
         buildConfigField "boolean", "BATTLY_WORLDS_ENABLED", battlyWorldsEnabled.toString()
         buildConfigField "boolean", "BATTLY_WORLDS_VPN_ENABLED", battlyWorldsVpnEnabled.toString()
@@ -201,6 +201,8 @@ android {
         release {
             minifyEnabled false
             shrinkResources false
+            // Installable CI APK: sign with debug key if no Play upload keystore
+            signingConfig hasReleaseSigning ? signingConfigs.googlePlayBuild : signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue 'string', 'storageProviderAuthorities', 'com.nexuslauncher.scoped.gamefolder'
             resValue 'string', 'application_package', 'com.nexuslauncher'
