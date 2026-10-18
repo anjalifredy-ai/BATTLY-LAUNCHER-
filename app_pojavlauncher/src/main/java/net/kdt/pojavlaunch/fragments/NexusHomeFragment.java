@@ -19,13 +19,15 @@ import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 import net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile;
 
-/** Nexus home – premium UI, PLAY, resources, manager, servers, hosting. */
+/** Nexus home – screenshot-matched UI + real PLAY / resources / servers. */
 public class NexusHomeFragment extends Fragment {
 
     public static final String TAG = "NexusHomeFragment";
 
     private TextView mProfileName;
     private TextView mProfileVersion;
+    private TextView mPlayVersionSub;
+    private TextView mHeroVersion;
     private ImageView mFabricBadge;
     private boolean mLaunchStarting;
 
@@ -42,6 +44,8 @@ public class NexusHomeFragment extends Fragment {
 
         mProfileName = view.findViewById(R.id.nexus_selected_profile_name);
         mProfileVersion = view.findViewById(R.id.nexus_selected_profile_version);
+        mPlayVersionSub = view.findViewById(R.id.nexus_play_version_sub);
+        mHeroVersion = view.findViewById(R.id.nexus_hero_version);
         mFabricBadge = view.findViewById(R.id.nexus_fabric_badge);
 
         View play = view.findViewById(R.id.nexus_play_button);
@@ -138,17 +142,19 @@ public class NexusHomeFragment extends Fragment {
             if (profile != null) {
                 String name = profile.name != null && !profile.name.isEmpty()
                         ? profile.name : "Profile";
-                mProfileName.setText(name);
                 String ver = profile.lastVersionId != null ? profile.lastVersionId : "Unknown";
+                mProfileName.setText(name);
                 if (mProfileVersion != null) mProfileVersion.setText(ver);
+                if (mPlayVersionSub != null) mPlayVersionSub.setText(ver);
+                if (mHeroVersion != null) mHeroVersion.setText(ver);
                 if (mFabricBadge != null) {
                     String low = (ver + " " + name).toLowerCase();
-                    mFabricBadge.setVisibility(low.contains("fabric") ? View.VISIBLE : View.GONE);
+                    mFabricBadge.setVisibility(View.VISIBLE);
                 }
             } else {
                 mProfileName.setText("Select profile");
                 if (mProfileVersion != null) mProfileVersion.setText("Tap to choose instance");
-                if (mFabricBadge != null) mFabricBadge.setVisibility(View.GONE);
+                if (mPlayVersionSub != null) mPlayVersionSub.setText("—");
             }
         } catch (Exception e) {
             mProfileName.setText("Default");
