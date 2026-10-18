@@ -31,35 +31,31 @@ jobs:
           yes | sdkmanager --licenses >/dev/null || true
           sdkmanager --install "ndk;28.2.13676358" || sdkmanager --install "ndk;27.0.12077973" || true
 
-      - name: Ensure google-services.json present
+      - name: Ensure release google-services.json present
         run: |
-          mkdir -p app_pojavlauncher/src/debug app_pojavlauncher/src/release
-          if [ ! -f app_pojavlauncher/src/debug/google-services.json ]; then
-            if [ -f app_pojavlauncher/src/debug/google-services.example.json ]; then
-              cp app_pojavlauncher/src/debug/google-services.example.json app_pojavlauncher/src/debug/google-services.json
-            fi
-          fi
+          mkdir -p app_pojavlauncher/src/release
           if [ ! -f app_pojavlauncher/src/release/google-services.json ]; then
-            if [ -f app_pojavlauncher/src/release/google-services.example.json ]; then
-              cp app_pojavlauncher/src/release/google-services.example.json app_pojavlauncher/src/release/google-services.json
-            fi
+            echo "ERROR: app_pojavlauncher/src/release/google-services.json missing"
+            echo "Put your Firebase file there with package_name: com.nexuslauncher"
+            exit 1
           fi
-          ls -la app_pojavlauncher/src/debug/google-services.json app_pojavlauncher/src/release/google-services.json || true
+          ls -la app_pojavlauncher/src/release/google-services.json
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Debug APK
+      # Release only — package com.nexuslauncher (no .debug suffix)
+      - name: Build Release APK
         run: |
-          ./gradlew :app_pojavlauncher:assembleDebug --console=plain --stacktrace
+          ./gradlew :app_pojavlauncher:assembleRelease --console=plain --stacktrace
         env:
           CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: NexusLauncher-debug
-          path: app_pojavlauncher/build/outputs/apk/debug/*.apk
+          name: NexusLauncher-release
+          path: app_pojavlauncher/build/outputs/apk/release/*.apk
           if-no-files-found: warn
 
       - name: List APK files
