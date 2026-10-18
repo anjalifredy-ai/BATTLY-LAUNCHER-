@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Nexus Launcher branding -->
-    <string name="app_name">Nexus Launcher</string>
-    <string name="app_short_name">Nexus Launcher</string>
-    <string name="nexus_tagline">Play Beyond Limits</string>
-</resources>
