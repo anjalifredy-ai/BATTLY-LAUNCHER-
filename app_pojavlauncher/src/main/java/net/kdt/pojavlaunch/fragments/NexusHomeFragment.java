@@ -13,16 +13,11 @@ import androidx.fragment.app.Fragment;
 import net.kdt.pojavlaunch.R;
 
 /**
- * Nexus Launcher home screen fragment.
- * Layout: res/layout/nexus_home_screen.xml
- * Theme: dark navy + blue glass (matches reference screenshots).
+ * Nexus Launcher home – layout matches reference screenshots
+ * (dark navy, hero banner, selected profile, PLAY, Browser Resources, Manager).
  *
- * TODO wiring:
- * - Bind selected profile name / version from LauncherProfiles
- * - PLAY button -> existing launch pipeline (same as current home Play)
- * - Browser Resources / Manager cards -> existing mod / resource fragments
- * - Account area -> mcAccountSpinner / Microsoft auth
- * - Instance dropdown -> NexusInstanceSelectorFragment or existing profile editor
+ * Enabled by changing LauncherActivity root fragment to this class
+ * (see NEXUS_LAUNCHER_ACTIVITY_PATCH.md).
  */
 public class NexusHomeFragment extends Fragment {
 
@@ -42,9 +37,16 @@ public class NexusHomeFragment extends Fragment {
         View play = view.findViewById(R.id.nexus_play_button);
         if (play != null) {
             play.setOnClickListener(v -> {
-                // Placeholder: will call the same launch path used by the current home Play button
-                Toast.makeText(requireContext(), "Nexus Play – wire to launch pipeline", Toast.LENGTH_SHORT).show();
+                // TODO: call same launch path as MainMenuFragment play button
+                Toast.makeText(requireContext(),
+                        "Nexus PLAY – connect to existing launch pipeline",
+                        Toast.LENGTH_SHORT).show();
             });
         }
+    }
+
+    /** Call from LauncherActivity.refreshHomeProfileUi when ready */
+    public void refreshProfileUi() {
+        // Bind selected profile name / version here
     }
 }
