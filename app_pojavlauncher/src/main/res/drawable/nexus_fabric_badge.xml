@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Stylized Fabric-inspired loom mark (original, not official trademark art) -->
+    <path
+        android:fillColor="#1B1B2A"
+        android:pathData="M4,4h40v40h-40z" />
+    <path
+        android:fillColor="#DBD0B4"
+        android:pathData="M10,12h28v4h-28z" />
+    <path
+        android:fillColor="#C6B896"
+        android:pathData="M12,18h6v18h-6zM21,18h6v18h-6zM30,18h6v18h-6z" />
+    <path
+        android:fillColor="#8B7E5A"
+        android:pathData="M10,36h28v3h-28z" />
+</vector>
