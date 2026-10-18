@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Nexus Launcher PRO – vector logo mark (N in hex/core style) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Outer soft ring -->
+    <!-- Dark core -->
     <path
-        android:pathData="M54,8 A46,46 0 1,1 53.9,8 Z"
-        android:strokeWidth="3"
+        android:pathData="M8,8 h92 v92 h-92 z"
+        android:fillColor="#0B0F1A" />
+
+    <!-- Blue glow ring -->
+    <path
+        android:pathData="M54,16 A38,38 0 1,1 53.9,16 Z"
+        android:strokeWidth="3.5"
         android:strokeColor="#3B82F6"
         android:fillColor="#00000000" />
 
-    <!-- Core disc -->
     <path
-        android:pathData="M54,18 A36,36 0 1,1 53.9,18 Z"
+        android:pathData="M54,22 A32,32 0 1,1 53.9,22 Z"
+        android:strokeWidth="1.5"
+        android:strokeColor="#60A5FA"
         android:fillColor="#121826" />
 
-    <!-- Inner accent ring -->
+    <!-- Stylized N -->
     <path
-        android:pathData="M54,24 A30,30 0 1,1 53.9,24 Z"
-        android:strokeWidth="2"
-        android:strokeColor="#60A5FA"
-        android:fillColor="#00000000" />
+        android:pathData="M34,74 L34,34 L42,34 L56,58 L56,34 L74,34 L74,74 L66,74 L52,50 L52,74 Z"
+        android:fillColor="#F8FAFC" />
 
-    <!-- Letter N stylized -->
+    <!-- Accent bar -->
     <path
-        android:pathData="M36,72 L36,36 L42,36 L54,58 L54,36 L66,36 L66,72 L60,72 L48,50 L48,72 Z"
-        android:fillColor="#F1F5F9" />
-
-    <!-- Small blue accent bar under N -->
-    <path
-        android:pathData="M40,78 L68,78 L68,82 L40,82 Z"
+        android:pathData="M38,80 L70,80 L70,84 L38,84 Z"
         android:fillColor="#3B82F6" />
 </vector>
