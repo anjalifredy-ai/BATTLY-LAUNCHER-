@@ -8,27 +8,32 @@
 ## Completed
 - [x] Root project name → Nexus Launcher
 - [x] applicationId → `com.nexuslauncher`
-- [x] All storage / share authorities updated
-- [x] versionName → `1.0.0-nexus`
-- [x] README rewritten
-- [x] GitHub Actions workflow (`nexus-build.yml`)
+- [x] Authorities + versionName updated
+- [x] README + GitHub Actions workflow
 - [x] Branding strings (`nexus_strings.xml`)
-- [x] `build.gradle.append` file added (contains the missing afterEvaluate + dependencies)
+- [x] **Theme colors** (`nexus_colors.xml`) – dark navy + blue glass
+- [x] **Styles** (`nexus_styles.xml`) – cards, play button, active badge
+- [x] **Drawables** – play button gradient, active badge, card backgrounds
+- [x] **Home screen layout stub** (`nexus_home_screen.xml`) – matches screenshot structure
+- [x] **Instance selector layout stub** (`nexus_instance_selector.xml`) – matches screenshot structure
+- [x] `build.gradle.append` (missing afterEvaluate + dependencies)
 
-## How to finish build.gradle (1 minute)
+## Still required for full UI
+- Wire these layouts into the existing launcher Activity/Fragment navigation
+- Replace Battly/Pojav home fragments with Nexus home
+- Connect Play button to real launch pipeline
+- Connect instance list to real profile/instance data
+- Icons, hero banner artwork, account spinner
+- Full responsive portrait/landscape handling
 
-The main `app_pojavlauncher/build.gradle` currently ends at `buildToolsVersion = '36.0.0' }`.
+## Critical build fix
+`app_pojavlauncher/build.gradle` is still truncated.  
+Open `build.gradle.append` → copy content → paste at end of `build.gradle` → commit.
 
-**Do this:**
-1. Open `app_pojavlauncher/build.gradle`
-2. Open `app_pojavlauncher/build.gradle.append`
-3. Copy everything from the append file and paste it at the end of `build.gradle`
-4. Delete the `.append` file (optional)
-5. Commit
-
-After that the project will have full dependencies (MobileGlues, Terracotta, ltw, Firebase, etc.) and can build.
-
-## Next automatic work
-- Soft-disable Battly ads
-- Clean remaining strings
-- Start Home screen UI matching the screenshots you provided
+## Theme reference (from your screenshots)
+- Background: near-black navy (`#0B0F1A`)
+- Cards: dark blue glass (`#1A2236`)
+- Accent: blue (`#3B82F6`)
+- Play button: blue gradient, rounded
+- ACTIVE badge: green with soft background
+- Labels: FAST (green) / STABLE (blue) / CUSTOMIZABLE (purple)
