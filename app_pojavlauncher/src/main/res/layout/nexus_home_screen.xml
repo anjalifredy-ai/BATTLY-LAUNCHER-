@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Nexus Launcher - Home Screen (matches reference screenshot 1/10)
-  Dark navy + blue glass theme
--->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nexus_home_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/nexus_bg_primary">
 
-    <!-- Top Navigation Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -19,8 +15,8 @@
         android:paddingEnd="12dp"
         android:background="@color/nexus_nav_bg">
 
-        <!-- Logo + Name -->
         <TextView
+            android:id="@+id/nexus_logo_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NEXUS LAUNCHER"
@@ -28,37 +24,20 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
+        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
 
-        <!-- Nav icons placeholder row -->
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="8dp"
-            android:src="@android:drawable/ic_menu_compass"
-            android:tint="@color/nexus_nav_icon_active" />
-
-        <!-- Account -->
         <TextView
+            android:id="@+id/nexus_account_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ACCOUNT"
+            android:text="Account"
             android:textColor="@color/nexus_text_secondary"
             android:textSize="12sp"
             android:layout_marginEnd="8dp" />
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_more"
-            android:tint="@color/nexus_nav_icon" />
     </LinearLayout>
 
-    <!-- Hero Banner -->
     <FrameLayout
+        android:id="@+id/nexus_hero_banner"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_margin="12dp"
@@ -74,46 +53,17 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- Version + tags -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/nexus_hero_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="26.3 • Fabric"
-                android:textColor="@color/nexus_text_secondary"
-                android:textSize="11sp"
-                android:layout_marginEnd="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="FAST"
-                android:textColor="@color/nexus_fast"
-                android:textSize="10sp"
-                android:layout_marginEnd="4dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="STABLE"
-                android:textColor="@color/nexus_stable"
-                android:textSize="10sp"
-                android:layout_marginEnd="4dp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CUSTOMIZABLE"
-                android:textColor="@color/nexus_customizable"
-                android:textSize="10sp" />
-        </LinearLayout>
+            android:text="26.3 • Fabric"
+            android:textColor="@color/nexus_text_secondary"
+            android:textSize="11sp" />
     </FrameLayout>
 
-    <!-- Selected Profile + Play row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -122,33 +72,49 @@
         android:paddingEnd="12dp"
         android:gravity="center_vertical">
 
-        <!-- Selected Profile card -->
         <LinearLayout
+            android:id="@+id/nexus_selected_profile_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:background="@drawable/nexus_card_bg"
-            android:padding="10dp"
-            android:gravity="center_vertical">
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SELECTED PROFILE\nSpunky Optimized\n26.3 • Fabric"
+                android:text="SELECTED PROFILE"
+                android:textColor="@color/nexus_text_muted"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/nexus_selected_profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Spunky Optimized"
                 android:textColor="@color/nexus_text_primary"
-                android:textSize="12sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nexus_selected_profile_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26.3 • Fabric"
+                android:textColor="@color/nexus_text_secondary"
+                android:textSize="11sp" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/nexus_edit_profile_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="EDIT"
             android:textColor="@color/nexus_text_secondary"
             android:textSize="12sp"
-            android:padding="10dp" />
+            android:padding="12dp" />
 
-        <!-- PLAY button -->
         <TextView
             android:id="@+id/nexus_play_button"
             android:layout_width="wrap_content"
@@ -164,7 +130,6 @@
             android:paddingBottom="12dp" />
     </LinearLayout>
 
-    <!-- Browser Resources + Manager cards -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -172,6 +137,7 @@
         android:padding="12dp">
 
         <LinearLayout
+            android:id="@+id/nexus_browser_resources_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -197,6 +163,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/nexus_manager_card"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
