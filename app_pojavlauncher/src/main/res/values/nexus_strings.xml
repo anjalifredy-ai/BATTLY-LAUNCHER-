@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Nexus Launcher branding - overrides -->
-    <string name="app_name">Nexus Launcher</string>
-    <string name="app_short_name">Nexus Launcher</string>
+    <string name="app_name">Nexus Launcher PRO</string>
+    <string name="app_short_name">Nexus Launcher PRO</string>
     <string name="nexus_tagline">Play Beyond Limits</string>
-    <string name="error_fatal">Nexus Launcher has unexpectedly crashed</string>
-    <string name="lazy_service_default_title">Nexus Launcher Service</string>
-    <string name="storage_required">Nexus Launcher requires external storage to be attached. Please reconnect it and restart the app.</string>
+    <string name="error_fatal">Nexus Launcher PRO has unexpectedly crashed</string>
+    <string name="lazy_service_default_title">Nexus Launcher PRO Service</string>
+    <string name="storage_required">Nexus Launcher PRO requires external storage to be attached. Please reconnect it and restart the app.</string>
     <string name="notification_game_runs">The game is running!</string>
 </resources>

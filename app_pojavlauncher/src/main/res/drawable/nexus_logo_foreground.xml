@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Adaptive icon foreground – centered N mark -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path
+        android:pathData="M54,22 A32,32 0 1,1 53.9,22 Z"
+        android:strokeWidth="2.5"
+        android:strokeColor="#60A5FA"
+        android:fillColor="#0B0F1A" />
+
+    <path
+        android:pathData="M38,74 L38,34 L45,34 L58,60 L58,34 L70,34 L70,74 L63,74 L50,48 L50,74 Z"
+        android:fillColor="#F8FAFC" />
+
+    <path
+        android:pathData="M42,80 L66,80 L66,84 L42,84 Z"
+        android:fillColor="#3B82F6" />
+</vector>
