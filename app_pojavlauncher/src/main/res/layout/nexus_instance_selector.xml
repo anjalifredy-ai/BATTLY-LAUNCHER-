@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Nexus Launcher - Instance / Profile Selector (matches reference screenshot 2/10)
--->
+<!-- Nexus Instance Selector – matches reference screenshot 2/10 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@color/nexus_bg_primary"
-    android:padding="12dp">
+    android:background="#99000000"
+    android:padding="16dp"
+    android:gravity="center">
 
-    <!-- Left panel - Profiles summary -->
+    <!-- LEFT: Profiles summary -->
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.9"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:background="@drawable/nexus_card_bg"
-        android:padding="14dp"
-        android:layout_marginEnd="8dp">
+        android:padding="16dp"
+        android:layout_marginEnd="8dp"
+        android:minHeight="280dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PROFILES"
             android:textColor="@color/nexus_text_muted"
-            android:textSize="11sp" />
+            android:textSize="10sp"
+            android:letterSpacing="0.1" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,6 +37,7 @@
             android:layout_marginTop="4dp" />
 
         <TextView
+            android:id="@+id/nexus_instance_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2 instances"
@@ -48,51 +50,62 @@
             android:layout_height="wrap_content"
             android:text="CURRENT"
             android:textColor="@color/nexus_text_muted"
-            android:textSize="11sp"
+            android:textSize="10sp"
+            android:letterSpacing="0.08"
             android:layout_marginTop="20dp" />
 
-        <!-- Current instance card -->
         <LinearLayout
+            android:id="@+id/nexus_current_instance_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:background="@drawable/nexus_card_elevated_bg"
-            android:padding="10dp"
-            android:layout_marginTop="6dp"
-            android:gravity="center_vertical">
+            android:padding="12dp"
+            android:layout_marginTop="6dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/nexus_current_instance_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Spunky Optimized\n26.3 • Fabric"
+                android:text="Spunky Optimized"
                 android:textColor="@color/nexus_text_primary"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nexus_current_instance_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26.3 • Fabric"
+                android:textColor="@color/nexus_text_secondary"
+                android:textSize="11sp"
+                android:layout_marginTop="2dp" />
         </LinearLayout>
 
-        <!-- Create New Instance button -->
         <TextView
+            android:id="@+id/nexus_create_instance_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="+  Create New Instance"
-            android:textColor="@color/nexus_bg_primary"
+            android:textColor="#0B0F1A"
             android:textSize="14sp"
             android:textStyle="bold"
             android:gravity="center"
             android:background="@drawable/nexus_play_button_bg"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:layout_marginTop="16dp" />
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:layout_marginTop="18dp" />
     </LinearLayout>
 
-    <!-- Right panel - All Instances -->
+    <!-- RIGHT: All Instances list -->
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1.4"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.3"
         android:orientation="vertical"
         android:background="@drawable/nexus_card_bg"
-        android:padding="14dp">
+        android:padding="16dp"
+        android:minHeight="280dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,30 +123,47 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/nexus_instance_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="✕"
                 android:textColor="@color/nexus_text_secondary"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:padding="4dp" />
         </LinearLayout>
 
-        <!-- Instance item 1 -->
+        <!-- Instance row 1 -->
         <LinearLayout
+            android:id="@+id/nexus_instance_row_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@drawable/nexus_card_elevated_bg"
             android:padding="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="14dp"
             android:gravity="center_vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Fabulously Optimized\n26.3 • Fabric"
-                android:textColor="@color/nexus_text_primary"
-                android:textSize="13sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fabulously Optimized"
+                    android:textColor="@color/nexus_text_primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="26.3 • Fabric"
+                    android:textColor="@color/nexus_text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -143,8 +173,9 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Instance item 2 - ACTIVE -->
+        <!-- Instance row 2 ACTIVE -->
         <LinearLayout
+            android:id="@+id/nexus_instance_row_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -153,26 +184,40 @@
             android:layout_marginTop="8dp"
             android:gravity="center_vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Spunky Optimized\n26.3 • Fabric"
-                android:textColor="@color/nexus_text_primary"
-                android:textSize="13sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Spunky Optimized"
+                    android:textColor="@color/nexus_text_primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="26.3 • Fabric"
+                    android:textColor="@color/nexus_text_secondary"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="✓ ACTIVE"
                 android:textColor="@color/nexus_active"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 android:background="@drawable/nexus_active_badge_bg"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:layout_marginEnd="8dp" />
 
             <TextView
@@ -184,5 +229,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </LinearLayout>
