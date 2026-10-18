@@ -1,1 +1,313 @@
-PLACEHOLDER
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature android:glEsVersion="0x00020000" />
+    <uses-feature
+        android:name="android.hardware.type.pc"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- BATTLYWORLDS_PERMISSION_START -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <!-- BATTLYWORLDS_PERMISSION_END -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".PojavApplication"
+        android:allowBackup="true"
+        android:allowNativeHeapPointerTagging="false"
+        android:appCategory="game"
+        android:hasFragileUserData="true"
+        android:icon="@drawable/nexus_logo"
+        android:roundIcon="@drawable/nexus_logo"
+        android:isGame="true"
+        android:label="Nexus Launcher PRO"
+        android:process=":launcher"
+        android:resizeableActivity="true"
+        android:theme="@style/AppTheme">
+        <property
+            android:name="android.window.PROPERTY_COMPAT_ALLOW_RESTRICTED_RESIZABILITY"
+            android:value="true" />
+        <activity
+            android:name=".MissingStorageActivity"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notif_icon" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/notif_channel_id" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id" />
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION"
+            android:value="true" />
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING"
+            android:value="true" />
+
+        <activity
+            android:name=".utils.BattlyRewardedInterstitialActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@style/BattlyFullscreenDialog" />
+
+        <activity
+            android:name=".TestStorageActivity"
+            android:exported="true"
+            android:label="Nexus Launcher PRO"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensorLandscape">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="install" android:scheme="battly" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="battlylauncher.com" android:pathPrefix="/mobile/install" android:scheme="https" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name=".LauncherDefaultAlias"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@drawable/nexus_logo"
+            android:roundIcon="@drawable/nexus_logo"
+            android:label="Nexus Launcher PRO"
+            android:targetActivity=".TestStorageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name=".LauncherCustom1Alias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_battly_custom_1"
+            android:roundIcon="@drawable/ic_launcher_battly_custom_1"
+            android:label="Nexus Launcher PRO"
+            android:targetActivity=".TestStorageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherCustom2Alias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_battly_custom_2"
+            android:roundIcon="@drawable/ic_launcher_battly_custom_2"
+            android:label="Nexus Launcher PRO"
+            android:targetActivity=".TestStorageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherCustom3Alias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_battly_custom_3"
+            android:roundIcon="@drawable/ic_launcher_battly_custom_3"
+            android:label="Nexus Launcher PRO"
+            android:targetActivity=".TestStorageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherCustom4Alias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_battly_custom_4"
+            android:roundIcon="@drawable/ic_launcher_battly_custom_4"
+            android:label="Nexus Launcher PRO"
+            android:targetActivity=".TestStorageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherCustom5Alias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_battly_custom_5"
+            android:roundIcon="@drawable/ic_launcher_battly_custom_5"
+            android:label="Nexus Launcher PRO"
+            android:targetActivity=".TestStorageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name=".LauncherCustom6Alias"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@drawable/ic_launcher_battly_custom_6"
+            android:roundIcon="@drawable/ic_launcher_battly_custom_6"
+            android:label="Nexus Launcher PRO"
+            android:targetActivity=".TestStorageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity
+            android:name=".LauncherActivity"
+            android:exported="true"
+            android:label="Nexus Launcher PRO"
+            android:launchMode="singleTop"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="oauth" android:scheme="battlymobile" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".onboarding.OnboardingActivity"
+            android:label="Nexus Launcher PRO"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ImportControlActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="sensorLandscape"
+            android:windowSoftInputMode="stateVisible">
+            <intent-filter
+                android:label="@string/import_control_label"
+                android:scheme="content"
+                tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/json" />
+                <data android:mimeType="text/json" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".FatalErrorActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity android:name=".ShowErrorActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity
+            android:name=".ExitActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
+        <activity
+            android:process=":gui_installer"
+            android:name=".JavaGUILauncherActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation|uiMode"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".CustomControlsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape">
+            <intent-filter>
+                <action android:name=".CustomControlsActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation|uiMode"
+            android:launchMode="singleTop"
+            android:process=":game"
+            android:screenOrientation="sensorLandscape" />
+
+        <provider
+            android:name=".scoped.FolderProvider"
+            android:authorities="@string/storageProviderAuthorities"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+        </provider>
+
+        <service android:name=".services.ProgressService"
+            android:foregroundServiceType="dataSync"/>
+        <service
+            android:name=".services.InstallerService"
+            android:process=":installer" />
+        <service
+            android:name=".utils.MobileGluesBenchmarkService"
+            android:exported="false"
+            android:process=":mg_benchmark" />
+        <service
+            android:name=".services.GameService"
+            android:process=":game"
+            android:foregroundServiceType="dataSync" />
+        <!-- BATTLYWORLDS_SERVICE_START -->
+        <service
+            android:name=".battlyworlds.BattlyWorldsVpnService"
+            android:exported="true"
+            android:foregroundServiceType="connectedDevice|dataSync"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.net.VpnService.SUPPORTS_ALWAYS_ON"
+                android:value="false" />
+        </service>
+        <!-- BATTLYWORLDS_SERVICE_END -->
+        <service
+            android:name=".services.BattlyMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <receiver
+            android:name=".battlyworlds.BattlyWorldsVoiceActionReceiver"
+            android:exported="false"
+            android:process=":game" />
+    </application>
+    <queries>
+        <package android:name="net.kdt.pojavlaunch.ffmpeg"/>
+    </queries>
+</manifest>
