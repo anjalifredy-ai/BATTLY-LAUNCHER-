@@ -1,30 +1,30 @@
-# Nexus Launcher – Status (fast track)
+# Nexus Launcher Status
 
 **Package**: `com.nexuslauncher`  
 **App**: Nexus Launcher  
 **Repo**: https://github.com/anjalifredy-ai/BATTLY-LAUNCHER-  
 **Branch**: `v3_openjdk`
 
-## Done
-- [x] Package + authorities + versionName
-- [x] Theme colors / styles / drawables (screenshot palette)
-- [x] Home layout XML (hero, profile, PLAY, resources, manager)
-- [x] Instance selector layout XML (ACTIVE, Create New)
-- [x] `NexusHomeFragment` + `NexusInstanceSelectorFragment`
-- [x] Wiring docs: `NEXUS_UI_WIRING.md` + `NEXUS_LAUNCHER_ACTIVITY_PATCH.md`
-- [x] GitHub Actions workflow
-- [x] `build.gradle.append` (missing deps block)
+## UI (screenshot structure)
+- [x] Full home layout: top bar, hero, FAST/STABLE/CUSTOMIZABLE, selected profile, PLAY, Browser Resources, Manager
+- [x] Full instance selector: left Profiles panel, Current, Create New Instance, All Instances, ACTIVE badge, close
+- [x] Theme colors + glass cards + play gradient + active badge
+- [x] PLAY → real `ExtraConstants.LAUNCH_GAME`
+- [x] EDIT / profile → instance selector
+- [x] Create New → ProfileTypeSelect / ProfileEditor
+- [x] Browser / Manager → existing fragments
 
-## You must do (2 minutes)
-1. **Build**: paste `app_pojavlauncher/build.gradle.append` → end of `build.gradle`
-2. **Home**: in `LauncherActivity.java` replace  
-   `MainMenuFragment.class` → `NexusHomeFragment.class`  
-   (one line, see `NEXUS_LAUNCHER_ACTIVITY_PATCH.md`)
+## Enable home (1 line)
+`LauncherActivity.java`:
+```java
+.add(R.id.container_fragment, NexusHomeFragment.class, null, "ROOT").commit();
+```
 
-## Next (code)
-- Wire PLAY to real launch (same as MainMenuFragment)
-- Bind profiles from `LauncherProfiles`
-- Open instance selector from profile UI
-- Soft-disable Battly ads / Battly+ branding
+## Build
+Paste `app_pojavlauncher/build.gradle.append` into end of `build.gradle`.
 
-Engine is untouched. Only UI shell + package rebrand so far.
+## Still incomplete vs perfect screenshot
+- Hero banner Minecraft artwork / characters (needs image assets)
+- Real profile list from LauncherProfiles (not demo names)
+- Outer activity chrome still Battly-styled until shell is themed
+- Pixel-perfect spacing/fonts on all devices
