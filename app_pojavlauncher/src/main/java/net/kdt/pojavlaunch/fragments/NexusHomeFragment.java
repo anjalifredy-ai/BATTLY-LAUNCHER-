@@ -13,11 +13,12 @@ import androidx.fragment.app.Fragment;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
+import net.kdt.pojavlaunch.extra.ExtraConstants;
+import net.kdt.pojavlaunch.extra.ExtraCore;
 
 /**
- * Nexus home screen – screenshot layout + click wiring stubs.
- * Enable via LauncherActivity: MainMenuFragment.class -> NexusHomeFragment.class
- * See NEXUS_LAUNCHER_ACTIVITY_PATCH.md
+ * Nexus home – screenshot UI + real PLAY launch (ExtraConstants.LAUNCH_GAME).
+ * Enable: LauncherActivity MainMenuFragment.class -> NexusHomeFragment.class
  */
 public class NexusHomeFragment extends Fragment {
 
@@ -25,6 +26,7 @@ public class NexusHomeFragment extends Fragment {
 
     private TextView mProfileName;
     private TextView mProfileVersion;
+    private boolean mLaunchStarting;
 
     @Nullable
     @Override
@@ -61,7 +63,7 @@ public class NexusHomeFragment extends Fragment {
                 try {
                     Tools.swapFragment(requireActivity(), SearchModFragment.class, SearchModFragment.TAG, null);
                 } catch (Exception e) {
-                    Toast.makeText(requireContext(), "Open mods browser", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Mods / resources", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -72,7 +74,7 @@ public class NexusHomeFragment extends Fragment {
                 try {
                     Tools.swapFragment(requireActivity(), BattlyFileManagerFragment.class, BattlyFileManagerFragment.TAG, null);
                 } catch (Exception e) {
-                    Toast.makeText(requireContext(), "Open manager", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Manager", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -80,12 +82,20 @@ public class NexusHomeFragment extends Fragment {
         refreshProfileUi();
     }
 
+    /** Same path as MainMenuFragment.requestLaunch() */
     private void onPlayClicked() {
-        // Wire to the same launch entry point MainMenuFragment uses.
-        // Until then, show feedback so the control is not dead.
-        Toast.makeText(requireContext(),
-                "PLAY – connect to MainMenuFragment launch path",
-                Toast.LENGTH_SHORT).show();
+        if (mLaunchStarting) return;
+        mLaunchStarting = true;
+        View play = getView() != null ? getView().findViewById(R.id.nexus_play_button) : null;
+        if (play != null) play.setEnabled(false);
+        ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true);
+        // UI reset is handled by ExtraConstants.LAUNCH_GAME_UI_RESET elsewhere
+        if (getView() != null) {
+            getView().postDelayed(() -> {
+                mLaunchStarting = false;
+                if (play != null) play.setEnabled(true);
+            }, 2000);
+        }
     }
 
     private void openInstanceSelector() {
@@ -93,15 +103,11 @@ public class NexusHomeFragment extends Fragment {
             Tools.swapFragment(requireActivity(), NexusInstanceSelectorFragment.class,
                     NexusInstanceSelectorFragment.TAG, null);
         } catch (Exception e) {
-            Toast.makeText(requireContext(), "Open instances", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Instances", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void refreshProfileUi() {
-        // TODO: read current profile from LauncherProfiles and set:
-        // mProfileName / mProfileVersion
-        if (mProfileName != null) {
-            // placeholder until data binding
-        }
+        // Bind from LauncherProfiles when ready
     }
 }
