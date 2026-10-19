@@ -19,7 +19,6 @@ import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 import net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile;
 
-/** Nexus home – screenshot-matched UI + real PLAY / resources / servers. */
 public class NexusHomeFragment extends Fragment {
 
     public static final String TAG = "NexusHomeFragment";
@@ -52,27 +51,30 @@ public class NexusHomeFragment extends Fragment {
         if (play != null) play.setOnClickListener(v -> onPlayClicked());
 
         View edit = view.findViewById(R.id.nexus_edit_profile_btn);
-        if (edit != null) edit.setOnClickListener(v -> openInstanceSelector());
+        if (edit != null) {
+            edit.setOnClickListener(v -> {
+                try {
+                    Tools.swapFragment(requireActivity(), ProfileEditorFragment.class,
+                            ProfileEditorFragment.TAG, null);
+                } catch (Exception e) {
+                    openInstanceSelector();
+                }
+            });
+        }
 
         View profileCard = view.findViewById(R.id.nexus_selected_profile_card);
         if (profileCard != null) profileCard.setOnClickListener(v -> openInstanceSelector());
 
         View browser = view.findViewById(R.id.nexus_browser_resources_card);
         if (browser != null) {
-            browser.setOnClickListener(v -> safeSwap(SearchModFragment.class, SearchModFragment.TAG,
-                    "Mods / resource packs / shaders"));
+            browser.setOnClickListener(v ->
+                    safeSwap(SearchModFragment.class, SearchModFragment.TAG, "Mod library"));
         }
 
         View manager = view.findViewById(R.id.nexus_manager_card);
         if (manager != null) {
-            manager.setOnClickListener(v -> {
-                try {
-                    Tools.swapFragment(requireActivity(), BattlyFileManagerFragment.class,
-                            BattlyFileManagerFragment.TAG, null);
-                } catch (Exception e) {
-                    Toast.makeText(requireContext(), "Manager", Toast.LENGTH_SHORT).show();
-                }
-            });
+            manager.setOnClickListener(v ->
+                    safeSwap(NexusManageContentFragment.class, NexusManageContentFragment.TAG, "Manager"));
         }
 
         View servers = view.findViewById(R.id.nexus_servers_card);
@@ -85,10 +87,16 @@ public class NexusHomeFragment extends Fragment {
         if (aternos != null) {
             aternos.setOnClickListener(v -> openHosting("Aternos", "https://aternos.org/"));
         }
-
         View minehut = view.findViewById(R.id.nexus_home_minehut);
         if (minehut != null) {
             minehut.setOnClickListener(v -> openHosting("Minehut", "https://minehut.com/"));
+        }
+
+        // Long-press logo → settings hub
+        View logo = view.findViewById(R.id.nexus_logo_title);
+        if (logo != null) {
+            logo.setOnClickListener(v ->
+                    safeSwap(NexusSettingsFragment.class, NexusSettingsFragment.TAG, "Settings"));
         }
 
         refreshProfileUi();
@@ -121,12 +129,24 @@ public class NexusHomeFragment extends Fragment {
         mLaunchStarting = true;
         View play = getView() != null ? getView().findViewById(R.id.nexus_play_button) : null;
         if (play != null) play.setEnabled(false);
+        try {
+            // Ensure profiles loaded before launch signal
+            LauncherProfiles.load();
+            MinecraftProfile p = LauncherProfiles.getCurrentProfile();
+            if (p == null || p.lastVersionId == null || "Unknown".equals(p.lastVersionId)) {
+                Toast.makeText(requireContext(), "Select a profile with a Minecraft version first", Toast.LENGTH_LONG).show();
+                mLaunchStarting = false;
+                if (play != null) play.setEnabled(true);
+                openInstanceSelector();
+                return;
+            }
+        } catch (Exception ignored) {}
         ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true);
         if (getView() != null) {
             getView().postDelayed(() -> {
                 mLaunchStarting = false;
                 if (play != null) play.setEnabled(true);
-            }, 2000);
+            }, 3000);
         }
     }
 
@@ -140,17 +160,13 @@ public class NexusHomeFragment extends Fragment {
             LauncherProfiles.load();
             MinecraftProfile profile = LauncherProfiles.getCurrentProfile();
             if (profile != null) {
-                String name = profile.name != null && !profile.name.isEmpty()
-                        ? profile.name : "Profile";
+                String name = profile.name != null && !profile.name.isEmpty() ? profile.name : "Profile";
                 String ver = profile.lastVersionId != null ? profile.lastVersionId : "Unknown";
                 mProfileName.setText(name);
                 if (mProfileVersion != null) mProfileVersion.setText(ver);
                 if (mPlayVersionSub != null) mPlayVersionSub.setText(ver);
                 if (mHeroVersion != null) mHeroVersion.setText(ver);
-                if (mFabricBadge != null) {
-                    String low = (ver + " " + name).toLowerCase();
-                    mFabricBadge.setVisibility(View.VISIBLE);
-                }
+                if (mFabricBadge != null) mFabricBadge.setVisibility(View.VISIBLE);
             } else {
                 mProfileName.setText("Select profile");
                 if (mProfileVersion != null) mProfileVersion.setText("Tap to choose instance");
@@ -158,7 +174,6 @@ public class NexusHomeFragment extends Fragment {
             }
         } catch (Exception e) {
             mProfileName.setText("Default");
-            if (mProfileVersion != null) mProfileVersion.setText("—");
         }
     }
 }

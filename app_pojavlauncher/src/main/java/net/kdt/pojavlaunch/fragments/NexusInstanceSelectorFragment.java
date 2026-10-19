@@ -20,7 +20,6 @@ import net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile;
 
 import java.util.Map;
 
-/** Screenshot-style dual panel: current profile + all instances with ACTIVE badge. */
 public class NexusInstanceSelectorFragment extends Fragment {
 
     public static final String TAG = "NexusInstanceSelectorFragment";
@@ -39,8 +38,6 @@ public class NexusInstanceSelectorFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
         mList = view.findViewById(R.id.nexus_instance_list);
         mCount = view.findViewById(R.id.nexus_instance_count);
         mCurrentName = view.findViewById(R.id.nexus_current_profile_name);
@@ -50,12 +47,12 @@ public class NexusInstanceSelectorFragment extends Fragment {
         if (create != null) {
             create.setOnClickListener(v -> {
                 try {
-                    Tools.swapFragment(requireActivity(), ProfileTypeSelectFragment.class,
-                            ProfileTypeSelectFragment.TAG, null);
+                    Tools.swapFragment(requireActivity(), NexusNewInstanceTypeFragment.class,
+                            NexusNewInstanceTypeFragment.TAG, null);
                 } catch (Exception e) {
                     try {
-                        Tools.swapFragment(requireActivity(), ProfileEditorFragment.class,
-                                ProfileEditorFragment.TAG, null);
+                        Tools.swapFragment(requireActivity(), ProfileTypeSelectFragment.class,
+                                ProfileTypeSelectFragment.TAG, null);
                     } catch (Exception e2) {
                         Toast.makeText(requireContext(), "Create New Instance", Toast.LENGTH_SHORT).show();
                     }
@@ -69,9 +66,7 @@ public class NexusInstanceSelectorFragment extends Fragment {
                 if (getParentFragmentManager().getBackStackEntryCount() > 0) {
                     getParentFragmentManager().popBackStack();
                 } else {
-                    try {
-                        Tools.backToMainMenu(requireActivity());
-                    } catch (Exception ignored) {}
+                    Tools.backToMainMenu(requireActivity());
                 }
             });
         }
@@ -128,18 +123,15 @@ public class NexusInstanceSelectorFragment extends Fragment {
                 ver.setText(p.lastVersionId != null ? p.lastVersionId : "Unknown");
 
                 boolean isActive = key.equals(currentKey);
-                if (active != null) {
-                    active.setVisibility(isActive ? View.VISIBLE : View.GONE);
-                }
-                if (isActive) {
-                    row.setBackgroundResource(R.drawable.nexus_card_elevated_bg);
-                }
+                if (active != null) active.setVisibility(isActive ? View.VISIBLE : View.GONE);
+                if (isActive) row.setBackgroundResource(R.drawable.nexus_card_elevated_bg);
 
                 row.setOnClickListener(v -> selectProfile(key));
 
                 View edit = row.findViewById(R.id.nexus_row_edit);
                 if (edit != null) {
                     edit.setOnClickListener(v -> {
+                        selectProfile(key);
                         try {
                             Tools.swapFragment(requireActivity(), ProfileEditorFragment.class,
                                     ProfileEditorFragment.TAG, null);
