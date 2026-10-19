@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
+    <!-- Screenshot-style bright cyan/white PLAY pill -->
     <gradient
-        android:startColor="@color/nexus_play_start"
-        android:endColor="@color/nexus_play_end"
+        android:startColor="#B8E4FF"
+        android:centerColor="#7EC8FF"
+        android:endColor="#5BB8FF"
         android:angle="0" />
     <corners android:radius="28dp" />
 </shape>
