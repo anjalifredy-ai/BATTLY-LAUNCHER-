@@ -15,28 +15,33 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Restore LauncherActivity if truncated + Nexus home ROOT
+      - name: Restore truncated Java sources + Nexus home ROOT
         run: |
+          GOOD=7cfebef2850567e7b9b579d1de6bfbe9a7b2bdff
+
+          restore_if_small() {
+            local FILE="$1"
+            local SIZE
+            SIZE=$(wc -c < "$FILE" | tr -d ' ')
+            echo "$FILE size=$SIZE"
+            if [ "$SIZE" -lt 5000 ]; then
+              echo "Restoring $FILE from $GOOD..."
+              git show "$GOOD:$FILE" > "$FILE"
+              echo "Restored ($(wc -c < "$FILE") bytes)"
+            fi
+          }
+
           LA="app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/LauncherActivity.java"
-          SIZE=$(wc -c < "$LA" | tr -d ' ')
-          echo "LauncherActivity size=$SIZE"
-          if [ "$SIZE" -lt 5000 ]; then
-            echo "Restoring full LauncherActivity from known-good commit..."
-            # Prefer a commit that still has the full file
-            for C in 7cfebef2850567e7b9b579d1de6bfbe9a7b2bdff a2fe557ecfeb8bfaa7832008cc6fa1acab5dc73a; do
-              if git cat-file -e "$C:$LA" 2>/dev/null; then
-                git show "$C:$LA" > "$LA"
-                echo "Restored from $C ($(wc -c < "$LA") bytes)"
-                break
-              fi
-            done
-          fi
+          MM="app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/fragments/MainMenuFragment.java"
+          restore_if_small "$LA"
+          restore_if_small "$MM"
+
           # Force Nexus home as ROOT fragment
           sed -i 's/MainMenuFragment\.class, null, "ROOT"/NexusHomeFragment.class, null, "ROOT"/g' "$LA"
-          # Allow settings / auth from Nexus home
           sed -i 's/if (!(fragment instanceof MainMenuFragment))/if (!(fragment instanceof MainMenuFragment) \&\& !(fragment instanceof NexusHomeFragment))/g' "$LA"
           sed -i 's/if (fragment instanceof MainMenuFragment) {/if (fragment instanceof MainMenuFragment || fragment instanceof NexusHomeFragment) {/g' "$LA"
-          grep -n 'ROOT\|NexusHome' "$LA" | head -10
+          echo "--- ROOT lines ---"
+          grep -n 'ROOT\|NexusHome' "$LA" | head -15
 
       - name: Rebrand Battly loading screen -> Nexus
         run: |
