@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/nexus_bg_primary"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/nexus_manage_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="←"
+            android:textColor="@color/nexus_text_primary"
+            android:background="@drawable/nexus_nav_icon_bg" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="10dp">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="MANAGE CONTENT"
+                android:textColor="@color/nexus_accent" android:textSize="10sp"
+                android:letterSpacing="0.1" android:textStyle="bold" />
+            <TextView android:id="@+id/nexus_manage_title"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="MODS" android:textColor="@color/nexus_text_primary"
+                android:textSize="20sp" android:textStyle="bold" />
+            <TextView android:id="@+id/nexus_manage_subtitle"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Installed content"
+                android:textColor="@color/nexus_text_secondary" android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView android:id="@+id/nexus_tab_mods" android:layout_width="wrap_content" android:layout_height="36dp"
+            android:gravity="center" android:paddingLeft="12dp" android:paddingRight="12dp"
+            android:text="Mods" android:textStyle="bold" android:textColor="@color/nexus_play_text"
+            android:background="@drawable/nexus_play_button_bg" android:layout_marginEnd="4dp" />
+        <TextView android:id="@+id/nexus_tab_rp" android:layout_width="wrap_content" android:layout_height="36dp"
+            android:gravity="center" android:paddingLeft="12dp" android:paddingRight="12dp"
+            android:text="Resource Packs" android:textColor="@color/nexus_text_secondary"
+            android:background="@drawable/nexus_card_bg" android:layout_marginEnd="4dp" />
+        <TextView android:id="@+id/nexus_tab_shaders" android:layout_width="wrap_content" android:layout_height="36dp"
+            android:gravity="center" android:paddingLeft="12dp" android:paddingRight="12dp"
+            android:text="Shaders" android:textColor="@color/nexus_text_secondary"
+            android:background="@drawable/nexus_card_bg" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/nexus_manage_browse"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="+ Browse"
+        android:textColor="@color/nexus_play_text"
+        android:textStyle="bold"
+        android:background="@drawable/nexus_play_button_bg" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Open full manager to enable/disable, update and delete installed content."
+        android:textColor="@color/nexus_text_secondary"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/nexus_manage_open_full"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="Open File Manager"
+        android:textColor="@color/nexus_text_primary"
+        android:textStyle="bold"
+        android:background="@drawable/nexus_card_elevated_bg" />
+
+    <TextView
+        android:id="@+id/nexus_manage_open_library"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Open Mod Library"
+        android:textColor="@color/nexus_text_primary"
+        android:textStyle="bold"
+        android:background="@drawable/nexus_card_elevated_bg" />
+</LinearLayout>

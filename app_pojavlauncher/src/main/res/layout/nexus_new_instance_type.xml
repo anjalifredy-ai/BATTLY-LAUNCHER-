@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E60B0F1A">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/nexus_card_elevated_bg"
+        android:padding="18dp"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="NEW INSTANCE"
+                android:textColor="@color/nexus_accent"
+                android:textSize="11sp"
+                android:letterSpacing="0.1"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nexus_newtype_close"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:gravity="center"
+                android:text="✕"
+                android:textColor="@color/nexus_text_secondary" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="What do you want to create?"
+            android:textColor="@color/nexus_text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:id="@+id/nexus_type_normal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/nexus_card_bg"
+                android:padding="12dp"
+                android:layout_marginEnd="6dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:src="@drawable/nexus_hero_art"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Normal" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" android:text="Normal"
+                    android:textColor="@color/nexus_text_primary" android:textStyle="bold" android:textSize="14sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Vanilla, Fabric, Forge, Quilt or NeoForge"
+                    android:textColor="@color/nexus_text_secondary" android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nexus_type_modpack"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/nexus_card_bg"
+                android:padding="12dp"
+                android:layout_marginStart="6dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:src="@drawable/nexus_hero_art"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Modpack" />
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp" android:text="Modpack"
+                    android:textColor="@color/nexus_text_primary" android:textStyle="bold" android:textSize="14sp" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="Browse Modrinth / CurseForge packs"
+                    android:textColor="@color/nexus_text_secondary" android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
