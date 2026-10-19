@@ -15,6 +15,41 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: Restore LauncherActivity if truncated + Nexus home ROOT
+        run: |
+          LA="app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/LauncherActivity.java"
+          SIZE=$(wc -c < "$LA" | tr -d ' ')
+          echo "LauncherActivity size=$SIZE"
+          if [ "$SIZE" -lt 5000 ]; then
+            echo "Restoring full LauncherActivity from known-good commit..."
+            # Prefer a commit that still has the full file
+            for C in 7cfebef2850567e7b9b579d1de6bfbe9a7b2bdff a2fe557ecfeb8bfaa7832008cc6fa1acab5dc73a; do
+              if git cat-file -e "$C:$LA" 2>/dev/null; then
+                git show "$C:$LA" > "$LA"
+                echo "Restored from $C ($(wc -c < "$LA") bytes)"
+                break
+              fi
+            done
+          fi
+          # Force Nexus home as ROOT fragment
+          sed -i 's/MainMenuFragment\.class, null, "ROOT"/NexusHomeFragment.class, null, "ROOT"/g' "$LA"
+          # Allow settings / auth from Nexus home
+          sed -i 's/if (!(fragment instanceof MainMenuFragment))/if (!(fragment instanceof MainMenuFragment) \&\& !(fragment instanceof NexusHomeFragment))/g' "$LA"
+          sed -i 's/if (fragment instanceof MainMenuFragment) {/if (fragment instanceof MainMenuFragment || fragment instanceof NexusHomeFragment) {/g' "$LA"
+          grep -n 'ROOT\|NexusHome' "$LA" | head -10
+
+      - name: Rebrand Battly loading screen -> Nexus
+        run: |
+          STR="app_pojavlauncher/src/main/res/values/strings.xml"
+          sed -i 's/>Battly Launcher</>Nexus Launcher PRO</g' "$STR"
+          sed -i 's/Battly is preparing everything/Nexus is preparing everything/g' "$STR"
+          sed -i 's/>Preparing Minecraft</>Nexus is preparing Minecraft</g' "$STR"
+          sed -i 's/>Battly Workspace</>Nexus Workspace</g' "$STR"
+          sed -i 's/Battly Launcher has unexpectedly crashed/Nexus Launcher PRO has unexpectedly crashed/g' "$STR"
+          sed -i 's/Enjoy your game\. Battly/Enjoy your game. Nexus/g' "$STR"
+          echo "Branding sample:"
+          grep -n 'app_name\|launcher_starting_minecraft_enjoy\|launcher_starting_hint' "$STR" | head -10
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -44,7 +79,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Release only — package com.nexuslauncher (no .debug suffix)
       - name: Build Release APK
         run: |
           ./gradlew :app_pojavlauncher:assembleRelease --console=plain --stacktrace
