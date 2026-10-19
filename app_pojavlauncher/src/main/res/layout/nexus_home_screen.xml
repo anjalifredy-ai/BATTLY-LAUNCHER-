@@ -12,7 +12,6 @@
         android:orientation="vertical"
         android:paddingBottom="20dp">
 
-        <!-- TOP BAR — matches screenshot -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -58,7 +57,6 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
-            <!-- Nav pills like screenshot -->
             <TextView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -112,7 +110,6 @@
                 android:layout_marginStart="4dp" />
         </LinearLayout>
 
-        <!-- HERO BANNER with character art -->
         <FrameLayout
             android:id="@+id/nexus_hero_banner"
             android:layout_width="match_parent"
@@ -128,7 +125,6 @@
                 android:scaleType="centerCrop"
                 android:contentDescription="Hero" />
 
-            <!-- dark gradient overlay for text readability -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -238,7 +234,6 @@
             </LinearLayout>
         </FrameLayout>
 
-        <!-- PROFILE + EDIT + PLAY row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -361,13 +356,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="26.3 • Fabric"
-                        android:textColor="#CCFFFFFF"
+                        android:textColor="#CC0B1220"
                         android:textSize="10sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- BROWSER RESOURCES + MANAGER -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -493,7 +487,6 @@
             </FrameLayout>
         </LinearLayout>
 
-        <!-- MULTIPLAYER row kept under home -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
